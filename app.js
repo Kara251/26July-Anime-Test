@@ -1,5 +1,5 @@
 (function () {
-  var lang = 'tc';
+  var lang = 'sc';
   var current = 0;
   var scores = {};
   var total = QUIZ_DATA.questions.length;
