@@ -94,12 +94,9 @@ body {
 .home-container {
   max-width: 520px;
   width: 100%;
-  padding: 40px 28px;
+  padding: 48px 32px;
   margin: auto;
   text-align: center;
-  border: 5px solid var(--accent);
-  background: var(--bg-card);
-  position: relative;
 }
 
 /* ── Marquee ── */
@@ -153,52 +150,47 @@ body {
   to { transform: translateX(0); }
 }
 
-.home-masthead {
+.home-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 3px;
   color: var(--text-light);
   text-transform: uppercase;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+}
+
+.home-header em {
+  font-style: normal;
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .home-title {
-  padding: 16px 0;
-  text-align: center;
-}
-
-.home-title-main {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: 14px;
-  line-height: 1;
+  padding: 20px 0;
 }
 
 .home-year {
   display: block;
   font-family: var(--font-serif);
-  font-size: 96px;
+  font-size: 80px;
   font-weight: 900;
-  letter-spacing: 12px;
+  letter-spacing: 10px;
   line-height: 1;
-  margin: 8px 0;
-}
-
-.home-title-sub {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  line-height: 1;
+  margin-bottom: 10px;
 }
 
 .home-title h1 {
-  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  line-height: 1.7;
+}
+
+.home-title h1 span {
+  display: block;
 }
 
 .home-subtitle {
@@ -220,7 +212,7 @@ body {
   letter-spacing: 5px;
   cursor: pointer;
   transition: background 0.3s, color 0.3s, transform 0.1s;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .btn-start:hover {
@@ -233,11 +225,11 @@ body {
 }
 
 .home-footer {
-  padding-top: 4px;
+  margin-top: 12px;
 }
 
 .home-footer span {
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 3px;
   color: var(--text-light);
   text-transform: uppercase;
@@ -400,10 +392,20 @@ body {
 
 .result-card {
   background: var(--bg-card);
-  border: 5px solid var(--accent);
+  border: 2px solid var(--border-dark);
   position: relative;
   overflow: hidden;
   animation: cardIn 0.5s ease both;
+}
+
+.result-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 7px;
+  background: repeating-linear-gradient(-45deg, var(--accent), var(--accent) 3px, transparent 3px, transparent 6px);
 }
 
 @keyframes cardIn {
@@ -619,23 +621,16 @@ body {
   }
 
   .home-year {
-    font-size: 64px;
-    letter-spacing: 8px;
+    font-size: 56px;
+    letter-spacing: 6px;
   }
 
-  .home-title-main {
-    font-size: 30px;
-    letter-spacing: 10px;
-  }
-
-  .home-title-sub {
-    font-size: 22px;
-    letter-spacing: 4px;
+  .home-title h1 {
+    font-size: 24px;
   }
 
   .home-container {
-    padding: 32px 20px;
-    border-width: 4px;
+    padding: 40px 24px;
   }
 
   .quiz-container {
