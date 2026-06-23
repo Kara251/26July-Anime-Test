@@ -239,8 +239,8 @@ body {
 }
 
 .marquee-item {
-  width: 100px;
-  height: 66px;
+  width: 60px;
+  height: 84px;
   background: var(--border-dark);
   border-radius: 2px;
   flex-shrink: 0;
@@ -715,8 +715,10 @@ body {
 }
 
 .result-img-wrap {
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  aspect-ratio: 2 / 3;
   border: 1px dashed var(--border);
   margin-bottom: 16px;
   position: relative;
@@ -823,12 +825,6 @@ body {
 .result-section-item {
   border: 1px solid var(--border);
   padding: 10px 14px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.result-section-item:hover {
-  transform: translateX(3px);
-  box-shadow: -3px 0 0 var(--accent);
 }
 
 .result-section-item-name {
@@ -989,8 +985,8 @@ body {
   }
 
   .marquee-item {
-    width: 80px;
-    height: 53px;
+    width: 48px;
+    height: 67px;
   }
 
   .result-description {
