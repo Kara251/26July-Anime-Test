@@ -1,7 +1,8 @@
 (function () {
-  var lang = 'sc';
+  var lang = 'tc';
   var current = 0;
   var scores = {};
+  var history = [];
   var total = QUIZ_DATA.questions.length;
 
   var pageHome = document.getElementById('page-home');
@@ -12,6 +13,7 @@
   var quizBody = document.getElementById('quiz-body');
   var quizQuestion = document.getElementById('quiz-question');
   var quizOptions = document.getElementById('quiz-options');
+  var btnPrev = document.getElementById('btn-prev');
 
   function T(s) {
     return lang === 'sc' ? toSC(s) : s;
@@ -26,12 +28,23 @@
     Object.keys(QUIZ_DATA.results).forEach(function (k) { scores[k] = 0; });
   }
 
+  function triggerAnims(page) {
+    var els = page.querySelectorAll('.anim');
+    els.forEach(function (el) { el.classList.remove('anim-in'); });
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        els.forEach(function (el) { el.classList.add('anim-in'); });
+      });
+    });
+  }
+
   function showPage(page) {
     [pageHome, pageQuiz, pageResult].forEach(function (p) {
       p.classList.remove('active');
     });
     page.classList.add('active');
     window.scrollTo(0, 0);
+    triggerAnims(page);
   }
 
   function applyLang() {
@@ -43,8 +56,13 @@
     });
   }
 
+  function updatePrevBtn() {
+    btnPrev.disabled = current === 0;
+  }
+
   function startQuiz() {
     current = 0;
+    history = [];
     resetScores();
     showPage(pageQuiz);
     renderQuestion();
@@ -56,11 +74,13 @@
     progressFill.style.width = (current / total * 100) + '%';
     quizQuestion.textContent = T(q.text);
     quizOptions.innerHTML = '';
+    updatePrevBtn();
 
     var labels = ['A', 'B', 'C', 'D'];
     q.options.forEach(function (opt, i) {
       var btn = document.createElement('button');
       btn.className = 'quiz-option';
+      btn.style.setProperty('--i', i);
       btn.textContent = labels[i] + '. ' + T(opt.text);
       btn.addEventListener('click', function () { selectOption(i); });
       quizOptions.appendChild(btn);
@@ -70,6 +90,8 @@
   function selectOption(index) {
     var q = QUIZ_DATA.questions[current];
     var opt = q.options[index];
+
+    history.push({ question: current, option: index, scores: Object.assign({}, opt.scores) });
 
     Object.keys(opt.scores).forEach(function (k) {
       scores[k] = (scores[k] || 0) + opt.scores[k];
@@ -97,6 +119,20 @@
     }, 300);
   }
 
+  function goBack() {
+    if (history.length === 0) return;
+    var last = history.pop();
+    Object.keys(last.scores).forEach(function (k) {
+      scores[k] = (scores[k] || 0) - last.scores[k];
+    });
+    current = last.question;
+    quizBody.classList.add('entering');
+    setTimeout(function () {
+      renderQuestion();
+      quizBody.classList.remove('entering');
+    }, 100);
+  }
+
   function getResultKey() {
     var maxVal = 0;
     var key = 'action';
@@ -110,7 +146,6 @@
     var result = QUIZ_DATA.results[getResultKey()];
 
     var img = document.getElementById('result-img');
-    var imgPh = document.getElementById('result-img-ph');
     if (result.image) {
       img.src = result.image;
       img.alt = result.animeName;
@@ -156,11 +191,6 @@
       avoidList.appendChild(div);
     });
 
-    var card = document.getElementById('result-card');
-    card.style.animation = 'none';
-    void card.offsetHeight;
-    card.style.animation = 'cardIn 0.5s ease both';
-
     showPage(pageResult);
   }
 
@@ -172,7 +202,7 @@
     var card = document.getElementById('result-card');
     var btn = document.getElementById('btn-share');
     var origText = btn.textContent;
-    btn.textContent = lang === 'sc' ? '保存中…' : '保存中…';
+    btn.textContent = '保存中…';
     btn.disabled = true;
 
     html2canvas(card, {
@@ -181,7 +211,7 @@
       useCORS: true
     }).then(function (canvas) {
       var a = document.createElement('a');
-      a.download = '2026夏季番测验结果.png';
+      a.download = '2026夏季番測驗結果.png';
       a.href = canvas.toDataURL('image/png');
       a.click();
     }).catch(function () {
@@ -204,6 +234,8 @@
   document.getElementById('btn-retry').addEventListener('click', restart);
   document.getElementById('btn-share').addEventListener('click', shareResult);
   document.getElementById('lang-btn').addEventListener('click', toggleLang);
+  btnPrev.addEventListener('click', goBack);
 
   applyLang();
+  triggerAnims(pageHome);
 })();
